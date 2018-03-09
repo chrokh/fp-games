@@ -28,8 +28,8 @@ const WEST  = { x:-1, y: 0 }
 const pointEq = p1 => p2 => p1.x == p2.x && p1.y == p2.y
 
 // State inspection
-const eatsApple   = state => pointEq(state.snake[0])(state.apple)
-const willCollide = state => state.snake.find(pointEq(nextHead(state)))
+const eatsApple = state => pointEq(state.snake[0])(state.apple)
+const willCrash = state => state.snake.find(pointEq(nextHead(state)))
 
 // Next values based on state
 const nextX     = state => mod(state.cols)(state.snake[0].x + state.moves[0].x)
@@ -37,7 +37,7 @@ const nextY     = state => mod(state.rows)(state.snake[0].y + state.moves[0].y)
 const nextHead  = spec({ x: nextX, y: nextY })
 const nextMoves = state => state.moves.length > 1 ? dropFirst(state.moves) : state.moves
 const nextApple = state => eatsApple(state) ? rndPos(state) : state.apple
-const nextSnake = state => willCollide(state)
+const nextSnake = state => willCrash(state)
   ? [{ x: 2, y: 2 }]
   : (eatsApple(state)
     ? [nextHead(state)].concat(state.snake)
@@ -51,9 +51,9 @@ const Matrix = {
 }
 
 // Matrix modifiers
-const addSnake     = state => pipe(...map(Matrix.set('X'))(state.snake))
-const addApple     = state => Matrix.set('o')(state.apple)
-const addCollision = state => willCollide(state) ? map(map(k('|'))) : id
+const addSnake = state => pipe(...map(Matrix.set('X'))(state.snake))
+const addApple = state => Matrix.set('o')(state.apple)
+const addCrash = state => willCrash(state) ? map(map(k('|'))) : id
 
 // Randomness
 const rndPos = table => ({
@@ -81,7 +81,7 @@ const print = state => pipe(
   Matrix.make,
   addSnake(state),
   addApple(state),
-  addCollision(state),
+  addCrash(state),
   Matrix.print,
 )(state)
 
