@@ -10,7 +10,7 @@ const mod       = x => y => ((y % x) + x) % x // http://bit.ly/2oF4mQ7
 const o         = (...fns) => x => pipe(...reverse([...fns]))(x)
 const objOf     = k => v => { var o = {}; o[k] = v; return o }
 const pipe      = (...fns) => x => [...fns].reduce((acc, f) => f(acc), x)
-const pointEq = p1 => p2 => p1.x == p2.x && p1.y == p2.y // TODO: Generalize to objEq
+const pointEq   = p1 => p2 => p1.x == p2.x && p1.y == p2.y // TODO: Generalize to objEq
 const prop      = k => o => o[k]
 const range     = n => m => Array.apply(null, Array(m - n)).map((_, i) => n + i)
 const rep       = c => n => map(k(c))(range(0)(n))
