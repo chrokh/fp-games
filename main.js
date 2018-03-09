@@ -43,8 +43,6 @@ const willCollide = state => state.snake.find(pointEq(nextHead(state)))
 // Next prop from current state
 //
 
-const nextTime  = state => state.time + 1
-
 const nextHead = state => ({
   x: mod(state.cols)(state.snake[0].x + state.moves[0].x ),
   y: mod(state.rows)(state.snake[0].y + state.moves[0].y ),
@@ -105,7 +103,6 @@ const addCollision = state => willCollide(state) ? map(map(k('|'))) : id
 let State = {
   cols:  20,
   rows:  14,
-  time:  0,
   moves: [EAST],
   snake: [{ x: 2, y: 2 }],
   apple: { x: 16, y: 2 },
@@ -134,7 +131,6 @@ const update = () => State = next(State)
 const next = spec({
   rows:  prop('rows'),
   cols:  prop('cols'),
-  time:  nextTime,
   moves: nextMoves,
   snake: nextSnake,
   apple: nextApple
