@@ -24,8 +24,15 @@ const SOUTH = { x: 0, y: 1 }
 const EAST  = { x: 1, y: 0 }
 const WEST  = { x:-1, y: 0 }
 
-// Points
+// Point operations
 const pointEq = p1 => p2 => p1.x == p2.x && p1.y == p2.y
+
+// Matrix operations
+const Matrix = {
+  make:  table => rep(rep('.')(table.cols))(table.rows),
+  set:   val => pos => adjust(pos.y)(adjust(pos.x)(k(val))),
+  print: pipe(map(x => x.join(' ')), join('\r\n'))
+}
 
 // State inspection
 const eatsApple = state => pointEq(state.snake[0])(state.apple)
@@ -42,13 +49,6 @@ const nextSnake = state => willCrash(state)
   : (eatsApple(state)
     ? [nextHead(state)].concat(state.snake)
     : [nextHead(state)].concat(dropLast(state.snake)))
-
-// Matrix data type
-const Matrix = {
-  make:  table => rep(rep('.')(table.cols))(table.rows),
-  set:   val => pos => adjust(pos.y)(adjust(pos.x)(k(val))),
-  print: pipe(map(x => x.join(' ')), join('\r\n'))
-}
 
 // Matrix modifiers
 const addSnake = state => pipe(...map(Matrix.set('X'))(state.snake))
