@@ -39,14 +39,14 @@ const step = t1 => t2 => {
   }
 }
 
-document.onkeypress = e => {
-  switch (e.keyCode) {
-    case 119: case 104: state = enqueue(state, NORTH); return
-    case 97:  case 106: state = enqueue(state, WEST);  return
-    case 115: case 107: state = enqueue(state, SOUTH); return
-    case 100: case 108: state = enqueue(state, EAST);  return
+window.addEventListener('keydown', e => {
+  switch (e.key) {
+    case 'w': case 'h': case 'ArrowUp': state = enqueue(state, NORTH); return
+    case 'a': case 'j': case 'ArrowLeft': state = enqueue(state, WEST);  return
+    case 's': case 'k': case 'ArrowDown': state = enqueue(state, SOUTH); return
+    case 'd': case 'l': case 'ArrowRight': state = enqueue(state, EAST);  return
   }
-}
+})
 
 draw()
 window.requestAnimationFrame(step(0))

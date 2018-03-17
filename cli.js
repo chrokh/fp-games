@@ -1,5 +1,6 @@
-const Snake = require('./snake')
-const base  = require('./base')
+const readline = require('readline');
+const Snake    = require('./snake')
+const base     = require('./base')
 Object.getOwnPropertyNames(base).map(p => global[p] = base[p])
 
 let State = Snake.initialState()
@@ -26,20 +27,16 @@ const Matrix = {
   )(state)
 }
 
-// https://stackoverflow.com/questions/5006821/nodejs-how-to-read-keystrokes-from-stdin
-let stdin = process.stdin
-stdin.setRawMode(true)
-stdin.resume()
-stdin.setEncoding('utf8')
-stdin.on('data', function(key) {
-  if (key === '\u0003') process.exit() // ctr-c
-  switch (key.toUpperCase()) {
-    case 'W': case 'K': State = Snake.enqueue(State, Snake.NORTH); break
-    case 'S': case 'J': State = Snake.enqueue(State, Snake.SOUTH); break
-    case 'D': case 'L': State = Snake.enqueue(State, Snake.EAST);  break
-    case 'A': case 'H': State = Snake.enqueue(State, Snake.WEST);  break
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setRawMode(true);
+process.stdin.on('keypress', (str, key) => {
+  if (key.ctrl && key.name === 'c') process.exit()
+  switch (key.name.toUpperCase()) {
+    case 'W': case 'K': case 'UP':    State = Snake.enqueue(State, Snake.NORTH); break
+    case 'A': case 'H': case 'LEFT':  State = Snake.enqueue(State, Snake.WEST);  break
+    case 'S': case 'J': case 'DOWN':  State = Snake.enqueue(State, Snake.SOUTH); break
+    case 'D': case 'L': case 'RIGHT': State = Snake.enqueue(State, Snake.EAST);  break
   }
-})
+});
 
 setInterval(() => { step(); show() }, 80)
-

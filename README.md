@@ -11,7 +11,7 @@ cd snake
 node main
 ```
 
-- Use wasd or hjlk to control the snake.
+- Use arrow keys, wasd, or hjkl to control the snake.
 - Collect apples.
 - Avoid crashing.
-- Ctrl-c to quit.
+- Ctrl-c to quit (in terminal).
