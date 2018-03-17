@@ -1,4 +1,11 @@
-body {
-  background: #000;
-  text-align: center;
+html, body {
+  height:          100%;
+  margin:          0;
+  padding:         0;
+  background:      #121212;
+  text-align:      center;
+  color:           #fff;
+  display:         flex;
+  justify-content: center;
+  align-items:     center;
 }
