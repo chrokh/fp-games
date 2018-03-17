@@ -52,9 +52,8 @@ const next = spec({
   apple: nextApple
 })
 
-const enqueue = (state, move) => ({
-  ...state, moves: state.moves.concat([move])
+const enqueue = (state, move) => Object.assign({}, state, {
+  moves: state.moves.concat([move])
 })
-
 
 module.exports = { EAST, NORTH, SOUTH, WEST, initialState, enqueue, next, }
