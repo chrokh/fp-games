@@ -52,8 +52,11 @@ const next = spec({
   apple: nextApple
 })
 
-const enqueue = (state, move) => Object.assign({}, state, {
-  moves: state.moves.concat([move])
-})
+const validMove = move => state =>
+  state.moves[0].x + move.x != 0 || state.moves[0].y + move.y != 0
+
+const enqueue = (state, move) => validMove(move)(state)
+  ? merge(state)({ moves: state.moves.concat([move]) })
+  : state
 
 module.exports = { EAST, NORTH, SOUTH, WEST, initialState, enqueue, next, }

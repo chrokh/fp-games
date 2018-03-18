@@ -7,6 +7,7 @@ const join      = x => xs => xs.join(x)
 const k         = x => y => x
 const map       = f => xs => xs.map(f)
 const mapi      = f => xs => xs.map((x, i) => f(x)(i))
+const merge     = o1 => o2 => Object.assign({}, o1, o2)
 const mod       = x => y => ((y % x) + x) % x // http://bit.ly/2oF4mQ7
 const objOf     = k => v => { var o = {}; o[k] = v; return o }
 const pipe      = (...fns) => x => [...fns].reduce((acc, f) => f(acc), x)
@@ -19,4 +20,4 @@ const spec      = o => x => Object.keys(o)
   .map(k => objOf(k)(o[k](x)))
   .reduce((acc, o) => Object.assign(acc, o))
 
-module.exports = { adjust, concat, dropFirst, dropLast, id, join, k, map, mapi, mod, objOf, pipe, prop, range, rep, reverse, rnd, spec }
+module.exports = { adjust, concat, dropFirst, dropLast, id, join, k, map, mapi, merge, mod, objOf, pipe, prop, range, rep, reverse, rnd, spec }
