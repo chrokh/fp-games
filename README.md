@@ -1,6 +1,6 @@
 # Snake
 
-Play Snake in the terminal. Built in Javascript, with functional style, and without any libraries.
+The game Snake implemented with functional style in JavaScript without libraries. Interfaces for browsers and terminals.
 
 
 # Usage
