@@ -1,11 +1,14 @@
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 
+// Mutable state
 let state = initialState()
 
+// Position helpers
 const x = c => Math.round(c * canvas.width / state.cols)
 const y = r => Math.round(r * canvas.height / state.rows)
 
+// Game loop draw
 const draw = () => {
   // clear
   ctx.fillStyle = '#232323'
@@ -26,7 +29,7 @@ const draw = () => {
   }
 }
 
-
+// Game loop update
 const step = t1 => t2 => {
   if (t2 - t1 > 100) {
     state = next(state)
@@ -37,14 +40,15 @@ const step = t1 => t2 => {
   }
 }
 
+// Key events
 window.addEventListener('keydown', e => {
   switch (e.key) {
-    case 'w': case 'h': case 'ArrowUp': state = enqueue(state, NORTH); return
-    case 'a': case 'j': case 'ArrowLeft': state = enqueue(state, WEST);  return
-    case 's': case 'k': case 'ArrowDown': state = enqueue(state, SOUTH); return
-    case 'd': case 'l': case 'ArrowRight': state = enqueue(state, EAST);  return
+    case 'w': case 'h': case 'ArrowUp':    state = enqueue(state, NORTH); break
+    case 'a': case 'j': case 'ArrowLeft':  state = enqueue(state, WEST);  break
+    case 's': case 'k': case 'ArrowDown':  state = enqueue(state, SOUTH); break
+    case 'd': case 'l': case 'ArrowRight': state = enqueue(state, EAST);  break
   }
 })
 
-draw()
-window.requestAnimationFrame(step(0))
+// Main
+draw(); window.requestAnimationFrame(step(0))
