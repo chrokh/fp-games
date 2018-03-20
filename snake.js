@@ -10,9 +10,11 @@ const WEST  = { x:-1, y: 0 }
 // Point operations
 const pointEq = p1 => p2 => p1.x == p2.x && p1.y == p2.y
 
-// State inspection
+// Booleans
 const willEat   = state => pointEq(nextHead(state))(state.apple)
 const willCrash = state => state.snake.find(pointEq(nextHead(state)))
+const validMove = move => state =>
+  state.moves[0].x + move.x != 0 || state.moves[0].y + move.y != 0
 
 // Next values based on state
 const nextMoves = state => state.moves.length > 1 ? dropFirst(state.moves) : state.moves
@@ -51,9 +53,6 @@ const next = spec({
   snake: nextSnake,
   apple: nextApple
 })
-
-const validMove = move => state =>
-  state.moves[0].x + move.x != 0 || state.moves[0].y + move.y != 0
 
 const enqueue = (state, move) => validMove(move)(state)
   ? merge(state)({ moves: state.moves.concat([move]) })
