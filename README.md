@@ -8,7 +8,7 @@ The game Snake implemented with functional style in JavaScript without libraries
 ```bash
 git clone git@github.com:chrokh/snake.git
 cd snake
-node main
+node cli
 ```
 
 - Use arrow keys, wasd, or hjkl to control the snake.
