@@ -6,8 +6,8 @@ The game Snake implemented with functional style in JavaScript without libraries
 # Usage
 
 ```bash
-git clone git@github.com:chrokh/snake.git
-cd snake
+git clone git@github.com:chrokh/fp-games.git
+cd 001-snake
 node cli
 ```
 
