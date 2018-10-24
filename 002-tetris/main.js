@@ -86,11 +86,9 @@ const Random = {}
 Random.pick = xs => xs[Math.floor(Math.random() * xs.length)]
 
 const Player = {}
-Player.moveDown  = p  => ({ ...p, pos: { ...p.pos, y: p.pos.y + 1 }}),
-Player.moveLeft  = p  => ({ ...p, pos: { ...p.pos, x: p.pos.x - 1 }}),
-Player.moveRight = p  => ({ ...p, pos: { ...p.pos, x: p.pos.x + 1 }}),
-Player.make      = () => ({ pos: { x: 3, y: 0 }, piece: Piece.rand() }),
-Player.rotate    = p  => ({ ...p, piece: Matrix.rotate(p.piece) })
+Player.move   = d => p => ({ ...p, x:p.x+(d.x||0), y:p.y+(d.y||0) })
+Player.make   = () => ({ x: 3, y: 0 , piece: Piece.rand() }),
+Player.rotate = p  => ({ ...p, piece: Matrix.rotate(p.piece) })
 
 const State          = {}
 State.toMatrix       = s => Board.mount(s.player)(s.board)
@@ -107,11 +105,11 @@ State.movePlayer = f => s => {
   let valid = Matrix.sum(pre) == Matrix.sum(post)
   return { ...s, player: valid ? f(s.player) : s.player }
 }
-State.moveLeft   = State.movePlayer(Player.moveLeft)
-State.moveRight  = State.movePlayer(Player.moveRight)
+State.moveLeft   = State.movePlayer(Player.move({ x: -1 }))
+State.moveRight  = State.movePlayer(Player.move({ x: 1 }))
 State.moveDown   = s => {
   if (State.isAnimating(s)) return s
-  let s2 = State.movePlayer(Player.moveDown)(s)
+  let s2 = State.movePlayer(Player.move({ y: 1 }))(s)
   return s2.player != s.player
     ? s2
     : {
@@ -129,10 +127,10 @@ State.rotate = s =>
         Matrix.sum(Board.mount(s.player)(s.board))
       )([
         Player.rotate,
-        pipe(Player.moveRight, Player.rotate),
-        pipe(Player.moveLeft, Player.rotate),
-        pipe(Player.moveRight, Player.moveRight, Player.rotate),
-        pipe(Player.moveLeft, Player.moveLeft, Player.rotate),
+        pipe(Player.move({ x: 1 }), Player.rotate),
+        pipe(Player.move({ x:-1 }), Player.rotate),
+        pipe(Player.move({ x: 2 }), Player.rotate),
+        pipe(Player.move({ x:-2 }), Player.rotate),
         id
       ])
     )(s.player)
@@ -174,7 +172,7 @@ State.next           = pipe(
 )
 
 const Board = {}
-Board.mount = p => Matrix.mount(o => n => n != 0 ? n : o)(p.pos)(p.piece)
+Board.mount = p => Matrix.mount(o => n => n != 0 ? n : o)(p)(p.piece)
 Board.valid = b1 => b2 => Matrix.sum(b1) == Matrix.sum(b2)
 
 // Key events
