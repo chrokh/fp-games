@@ -7,7 +7,7 @@ const map       = f => xs => xs.map(f)
 const mapi      = f => xs => xs.map((x, i) => f(x)(i))
 const merge     = o1 => o2 => Object.assign({}, o1, o2)
 const mod       = x => y => ((y % x) + x) % x // http://bit.ly/2oF4mQ7
-const objOf     = k => v => { var o = {}; o[k] = v; return o }
+const objOf     = k => v => ({ [k]: v })
 const pipe      = (...fns) => x => [...fns].reduce((acc, f) => f(acc), x)
 const prop      = k => o => o[k]
 const range     = n => m => Array.apply(null, Array(m - n)).map((_, i) => n + i)
